@@ -1,25 +1,25 @@
 import localFont from 'next/font/local';
 
 export const satoshiLight = localFont({
-  src: './fonts/Satoshi-Light.otf',
+  src: '../app/fonts/Satoshi-Light.otf',
   variable: '--font-satoshi-light',
-  weight: '300',
+  display: 'swap',
 });
 
 export const satoshiRegular = localFont({
-  src: './fonts/Satoshi-Regular.otf',
+  src: '../app/fonts/Satoshi-Regular.otf',
   variable: '--font-satoshi-regular',
-  weight: '400',
+  display: 'swap',
 });
 
 export const satoshiMedium = localFont({
-  src: './fonts/Satoshi-Medium.otf',
+  src: '../app/fonts/Satoshi-Medium.otf',
   variable: '--font-satoshi-medium',
-  weight: '500',
+  display: 'swap',
 });
 
 export const satoshiBold = localFont({
-  src: './fonts/Satoshi-Bold.otf',
+  src: '../app/fonts/Satoshi-Bold.otf',
   variable: '--font-satoshi-bold',
-  weight: '700',
+  display: 'swap',
 }); 
