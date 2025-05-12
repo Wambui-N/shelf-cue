@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, Menu, BookOpen, BarChart3, MessageSquare, FileText, Layers, X } from 'lucide-react'
+import { ChevronDown, Menu, BookOpen, BarChart3, MessageSquare, FileText, Layers, X, ChevronRight } from 'lucide-react'
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -19,6 +19,29 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet"
+
+// AnimatedNavLink component
+interface AnimatedNavLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  active?: boolean;
+  onClick?: () => void;
+}
+const AnimatedNavLink = ({ href, children, className = '', active = false, onClick }: AnimatedNavLinkProps) => (
+  <Link
+    href={href}
+    onClick={onClick}
+    className={cn(
+      "relative inline-flex items-center h-12 after:absolute after:bg-blue after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300",
+      active ? "text-[#2A5BDA] after:scale-x-100" : "text-gray-600 hover:text-[#2A5BDA]",
+      className
+    )}
+    style={{ paddingBottom: 2, display: 'inline-flex' }}
+  >
+    <span>{children}</span>
+  </Link>
+);
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -56,8 +79,8 @@ const Navbar = () => {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
         scrolled 
-          ? "bg-white/95 backdrop-blur-sm shadow-md py-2" 
-          : "bg-white shadow-sm py-4"
+          ? "bg-offwhite/95 backdrop-blur-sm shadow-md py-2" 
+          : "bg-offwhite shadow-none py-4"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,46 +100,38 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1 lg:space-x-4">
             {navItems.map((item) => (
-              <Link 
+              <AnimatedNavLink
                 key={item.href}
-                href={item.href} 
-                className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center",
-                  pathname === item.href
-                    ? "text-[#2A5BDA] bg-blue-50"
-                    : "text-gray-600 hover:text-[#2A5BDA] hover:bg-blue-50/50"
-                )}
+                href={item.href}
+                active={pathname === item.href}
+                className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center bg-transparent"
               >
                 {item.label}
-              </Link>
+              </AnimatedNavLink>
             ))}
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
+                <button
                   className={cn(
-                    "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center",
-                    pathname?.startsWith("/comparison")
-                      ? "text-[#2A5BDA] bg-blue-50"
-                      : "text-gray-600 hover:text-[#2A5BDA] hover:bg-blue-50/50"
+                    "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 inline-flex items-center h-12 bg-transparent focus:outline-none",
+                    pathname?.startsWith("/comparison") ? "text-[#2A5BDA]" : "text-gray-600 hover:text-[#2A5BDA]"
                   )}
                 >
-                  Comparisons
-                  <ChevronDown className="ml-1 h-4 w-4" />
-                </Button>
+                  Comparisons <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64">
+              <DropdownMenuContent align="end" className="w-64 p-2 transition-all duration-300 origin-top-right transform scale-95 opacity-0 blur-sm data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:blur-0">
                 {comparisonsItems.map((item) => (
                   <DropdownMenuItem key={item.href} asChild>
-                    <Link 
+                    <Link
                       href={item.href}
                       className={cn(
-                        "w-full cursor-pointer",
-                        pathname === item.href && "text-[#2A5BDA] font-medium"
+                        "w-full cursor-pointer group flex items-center justify-between px-3 py-2 rounded-md text-gray-700 hover:text-blue hover:bg-blue-50 transition-all text-sm font-medium"
                       )}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
+                      <ChevronRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
                     </Link>
                   </DropdownMenuItem>
                 ))}
@@ -125,30 +140,26 @@ const Navbar = () => {
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
+                <button
                   className={cn(
-                    "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center",
-                    pathname?.startsWith("/resources")
-                      ? "text-offwhite bg-blue-50"
-                      : "text-offwhite hover:bg-orange hover: text-offwhite"
+                    "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 inline-flex items-center h-12 bg-transparent focus:outline-none",
+                    pathname?.startsWith("/resources") ? "text-[#2A5BDA]" : "text-gray-600 hover:text-[#2A5BDA]"
                   )}
                 >
-                  Resources
-                  <ChevronDown className="ml-1 h-4 w-4" />
-                </Button>
+                  Resources <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-56 p-2 transition-all duration-300 origin-top-right transform scale-95 opacity-0 blur-sm data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:blur-0">
                 {resourcesItems.map((item) => (
                   <DropdownMenuItem key={item.href} asChild>
-                    <Link 
+                    <Link
                       href={item.href}
                       className={cn(
-                        "w-full cursor-pointer",
-                        pathname === item.href && "text-[#2A5BDA] font-medium"
+                        "w-full cursor-pointer group flex items-center justify-between px-3 py-2 rounded-md text-gray-700 hover:text-blue hover:bg-blue-50 transition-all text-sm font-medium"
                       )}
                     >
-                      {item.label}
+                      <span>{item.label}</span>
+                      <ChevronRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
                     </Link>
                   </DropdownMenuItem>
                 ))}
@@ -184,18 +195,13 @@ const Navbar = () => {
                 <div className="flex flex-col space-y-3 py-4">
                   {navItems.map((item) => (
                     <SheetClose key={item.href} asChild>
-                      <Link 
-                        href={item.href} 
-                        className={cn(
-                          "flex items-center px-4 py-3 rounded-md text-sm font-medium transition-all",
-                          pathname === item.href
-                            ? "text-[#2A5BDA] bg-blue-50"
-                            : "text-gray-600 hover:text-[#2A5BDA] hover:bg-blue-50/50"
-                        )}
+                      <AnimatedNavLink
+                        href={item.href}
+                        active={pathname === item.href}
+                        className="flex items-center px-4 py-3 rounded-md text-sm font-medium transition-all bg-transparent"
                       >
-                        {item.icon}
                         {item.label}
-                      </Link>
+                      </AnimatedNavLink>
                     </SheetClose>
                   ))}
                   
@@ -204,16 +210,17 @@ const Navbar = () => {
                     <div className="pl-4 flex flex-col space-y-2">
                       {comparisonsItems.map((item) => (
                         <SheetClose key={item.href} asChild>
-                          <Link 
+                          <Link
                             href={item.href}
                             className={cn(
-                              "text-sm py-2 transition-colors",
+                              "text-sm py-2 transition-colors group flex items-center justify-between",
                               pathname === item.href
                                 ? "text-[#2A5BDA] font-medium"
                                 : "text-gray-600 hover:text-[#2A5BDA]"
                             )}
                           >
-                            {item.label}
+                            <span>{item.label}</span>
+                            <ChevronRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
                           </Link>
                         </SheetClose>
                       ))}
@@ -225,16 +232,17 @@ const Navbar = () => {
                     <div className="pl-4 flex flex-col space-y-2">
                       {resourcesItems.map((item) => (
                         <SheetClose key={item.href} asChild>
-                          <Link 
+                          <Link
                             href={item.href}
                             className={cn(
-                              "text-sm py-2 transition-colors",
+                              "text-sm py-2 transition-colors group flex items-center justify-between",
                               pathname === item.href
                                 ? "text-[#2A5BDA] font-medium"
                                 : "text-gray-600 hover:text-[#2A5BDA]"
                             )}
                           >
-                            {item.label}
+                            <span>{item.label}</span>
+                            <ChevronRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
                           </Link>
                         </SheetClose>
                       ))}

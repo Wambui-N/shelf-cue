@@ -65,6 +65,7 @@ const config: Config = {
   				'var(--font-satoshi-light)',
   				'var(--font-satoshi-medium)',
   				'var(--font-satoshi-bold)',
+  				'var(--font-satoshi-black)',
   				'system-ui',
   				'sans-serif',
   			],
@@ -72,6 +73,7 @@ const config: Config = {
   			regular: ['var(--font-satoshi-regular)'],
   			middle: ['var(--font-satoshi-medium)'],
   			bold: ['var(--font-satoshi-bold)'],
+  			black: ['var(--font-satoshi-black)'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

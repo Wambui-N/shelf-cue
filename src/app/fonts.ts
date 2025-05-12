@@ -22,4 +22,10 @@ export const satoshiBold = localFont({
   src: '../app/fonts/Satoshi-Bold.otf',
   variable: '--font-satoshi-bold',
   display: 'swap',
+});
+
+export const satoshiBlack = localFont({
+  src: '../app/fonts/Satoshi-Black.otf',
+  variable: '--font-satoshi-black',
+  display: 'swap',
 }); 
