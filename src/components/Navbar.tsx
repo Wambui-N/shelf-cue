@@ -104,7 +104,7 @@ const Navbar = () => {
                 key={item.href}
                 href={item.href}
                 active={pathname === item.href}
-                className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center bg-transparent"
+                className="px-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center bg-transparent"
               >
                 {item.label}
               </AnimatedNavLink>
@@ -121,13 +121,13 @@ const Navbar = () => {
                   Comparisons <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64 p-2 transition-all duration-300 origin-top-right transform scale-95 opacity-0 blur-sm data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:blur-0">
+              <DropdownMenuContent align="end" className="w-64 p-0 transition-all duration-300 origin-top-right transform scale-95 opacity-0 blur-sm data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:blur-0">
                 {comparisonsItems.map((item) => (
-                  <DropdownMenuItem key={item.href} asChild>
+                  <DropdownMenuItem key={item.href} asChild className="p-0">
                     <Link
                       href={item.href}
                       className={cn(
-                        "w-full cursor-pointer group flex items-center justify-between px-3 py-2 rounded-md text-gray-700 hover:text-blue hover:bg-blue-50 transition-all text-sm font-medium"
+                        "w-full cursor-pointer group flex items-center justify-between px-3 py-2 text-gray-700 hover:text-blue hover:bg-blue-50 transition-all text-sm font-medium"
                       )}
                     >
                       <span>{item.label}</span>
@@ -149,13 +149,13 @@ const Navbar = () => {
                   Resources <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 p-2 transition-all duration-300 origin-top-right transform scale-95 opacity-0 blur-sm data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:blur-0">
+              <DropdownMenuContent align="end" className="w-56 p-0 transition-all duration-300 origin-top-right transform scale-95 opacity-0 blur-sm data-[state=open]:scale-100 data-[state=open]:opacity-100 data-[state=open]:blur-0">
                 {resourcesItems.map((item) => (
-                  <DropdownMenuItem key={item.href} asChild>
+                  <DropdownMenuItem key={item.href} asChild className="p-0">
                     <Link
                       href={item.href}
                       className={cn(
-                        "w-full cursor-pointer group flex items-center justify-between px-3 py-2 rounded-md text-gray-700 hover:text-blue hover:bg-blue-50 transition-all text-sm font-medium"
+                        "w-full cursor-pointer group flex items-center justify-between px-3 py-2 text-gray-700 hover:text-blue hover:bg-blue-50 transition-all text-sm font-medium"
                       )}
                     >
                       <span>{item.label}</span>

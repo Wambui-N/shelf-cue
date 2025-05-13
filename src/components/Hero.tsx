@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle, AlertCircle, Wallet } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { satoshiBlack } from "@/app/fonts";
@@ -25,7 +25,7 @@ const GlitchButton = ({ text, href, icon, variant = "primary" }: GlitchButtonPro
       className={`group relative inline-flex items-center gap-2 overflow-hidden rounded-2xl px-5 py-4 text-base font-semibold duration-300 transition-all
         ${variant === "primary"
           ? "bg-white/80 text-navy shadow hover:bg-white"
-          : "bg-offwhite/70 text-blue hover:bg-white/90 hover:text-navy"}
+          : "bg-offwhite/70 text-navy"}
       `}
     >
       {/* Text Glitch */}
@@ -49,7 +49,7 @@ const GlitchButton = ({ text, href, icon, variant = "primary" }: GlitchButtonPro
 
 const Hero = () => {
   return (
-    <div className="relative min-h-screen bg-offwhite flex items-center justify-center pt-24 py-8 px-2">
+    <div className="relative min-h-screen bg-offwhite flex items-center justify-center pt-16 py-8 px-2">
       {/* Main hero content, centered */}
       <div className="w-full max-w-3xl flex flex-col items-center justify-center mx-auto p-8 md:p-14">
         {/* Headline */}
@@ -57,12 +57,40 @@ const Hero = () => {
           Stop Wasting $10,000+ on CRM Tools That Don't Work
         </h1>
         {/* Subheading */}
-        <p className="text-navy/80 text-lg md:text-xl mb-8 font-light text-center whitespace-pre-line">
+        <p className="text-navy/80 text-lg md:text-xl mb-8 font-light text-center max-w-3xl mx-auto">
           We combine hands-on experience with deep AI analysis to reveal:
-          {'\n✓ Which tools actually deliver (and which just look good in ads)'}
-          {'\n✓ Hidden pricing traps 83% of buyers miss'}
-          {'\n✓ The best alternatives for your budget'}
         </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12">
+          <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-navy/5 hover:border-navy/10 transition-all duration-300">
+            <div className="flex items-center gap-2">
+              <div className="bg-blue/10 p-1.5 rounded-lg">
+                <CheckCircle className="h-4 w-4 text-blue" />
+              </div>
+              <h3 className="font-medium text-navy text-sm">Tool Performance</h3>
+            </div>
+            <p className="text-navy/70 text-sm mt-1">Which tools actually deliver (and which just look good in ads)</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-navy/5 hover:border-navy/10 transition-all duration-300">
+            <div className="flex items-center gap-2">
+              <div className="bg-blue/10 p-1.5 rounded-lg">
+                <AlertCircle className="h-4 w-4 text-blue" />
+              </div>
+              <h3 className="font-medium text-navy text-sm">Hidden Costs</h3>
+            </div>
+            <p className="text-navy/70 text-sm mt-1">Pricing traps that 83% of buyers miss</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-navy/5 hover:border-navy/10 transition-all duration-300">
+            <div className="flex items-center gap-2">
+              <div className="bg-blue/10 p-1.5 rounded-lg">
+                <Wallet className="h-4 w-4 text-blue" />
+              </div>
+              <h3 className="font-medium text-navy text-sm">Budget Solutions</h3>
+            </div>
+            <p className="text-navy/70 text-sm mt-1">The best alternatives for your budget</p>
+          </div>
+        </div>
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 mb-4 justify-center items-center">
           <GlitchButton
