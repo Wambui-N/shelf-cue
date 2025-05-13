@@ -5,11 +5,41 @@ import { useState } from 'react';
 
 const EmailOptIn = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    // Here you would integrate with your email/lead service
+    setIsLoading(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+    };
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Something went wrong');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to subscribe');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -36,9 +66,16 @@ const EmailOptIn = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-blue/10 border border-blue rounded-2xl p-6 text-center text-blue font-medium"
+          className="bg-blue/10 border border-blue rounded-2xl p-6 text-center space-y-4"
         >
-          Thank you! Check your inbox for the checklist.
+          <p className="text-blue font-medium">Thank you! Your checklist is ready to download.</p>
+          <a
+            href="/crm-buyers-checklist.pdf"
+            download
+            className="inline-block bg-blue text-white px-7 py-3 rounded-lg font-medium hover:bg-blue/90 transition shadow"
+          >
+            Download Checklist
+          </a>
         </motion.div>
       ) : (
         <motion.form
@@ -49,6 +86,11 @@ const EmailOptIn = () => {
           onSubmit={handleSubmit}
           className="bg-white rounded-2xl shadow-md p-8 flex flex-col gap-4 items-center"
         >
+          {error && (
+            <div className="w-full max-w-xs text-red-500 text-sm text-center mb-2">
+              {error}
+            </div>
+          )}
           <input
             type="text"
             name="name"
@@ -65,9 +107,12 @@ const EmailOptIn = () => {
           />
           <button
             type="submit"
-            className="relative overflow-hidden group bg-blue text-white px-7 py-3 rounded-lg font-medium flex items-center gap-2 shadow hover:bg-blue/90 transition mt-2"
+            disabled={isLoading}
+            className="relative overflow-hidden group bg-blue text-white px-7 py-3 rounded-lg font-medium flex items-center gap-2 shadow hover:bg-blue/90 transition mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            <span className="relative z-10">Send Me the Checklist</span>
+            <span className="relative z-10">
+              {isLoading ? 'Sending...' : 'Get Checklist'}
+            </span>
             <span className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/60 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-shimmer pointer-events-none" />
           </button>
         </motion.form>
