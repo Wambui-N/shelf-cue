@@ -1,56 +1,47 @@
 import { NextResponse } from 'next/server';
-import MailerLite from '@mailerlite/mailerlite-nodejs';
 
-if (!process.env.MAILERLITE_API_KEY) {
-  throw new Error('MAILERLITE_API_KEY is not defined');
-}
-
-const mailerLite = new MailerLite({
-  api_key: process.env.MAILERLITE_API_KEY,
-});
+const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
+const MAILERLITE_GROUP_ID = process.env.MAILERLITE_GROUP_ID;
 
 export async function POST(request: Request) {
   try {
-    const { name, email } = await request.json();
+    const { email } = await request.json();
 
-    if (!email || !name) {
+    if (!email) {
       return NextResponse.json(
-        { success: false, message: 'Name and email are required' },
+        { error: 'Email is required' },
         { status: 400 }
       );
     }
 
-    // Create subscriber with correct method name
-    const params = {
-      email: email,
-      fields: {
-        name: name
-      }
-    };
+    const response = await fetch('https://api.mailerlite.com/api/v2/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-MailerLite-ApiKey': MAILERLITE_API_KEY || '',
+      },
+      body: JSON.stringify({
+        email,
+        groups: [MAILERLITE_GROUP_ID],
+      }),
+    });
 
-    try {
-      const response = await mailerLite.subscribers.createOrUpdate(params);
-      console.log('MailerLite response:', response);
-
-      return NextResponse.json({ 
-        success: true, 
-        message: 'Successfully subscribed to the mailing list' 
-      });
-    } catch (mailerLiteError: any) {
-      console.error('MailerLite API error:', mailerLiteError);
-      
-      // Check for specific MailerLite error messages
-      const errorMessage = mailerLiteError.message || 'Failed to subscribe to the mailing list';
-      
+    if (!response.ok) {
+      const error = await response.json();
       return NextResponse.json(
-        { success: false, message: errorMessage },
-        { status: 500 }
+        { error: error.error.message || 'Failed to subscribe' },
+        { status: response.status }
       );
     }
+
+    return NextResponse.json(
+      { message: 'Successfully subscribed!' },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Subscription error:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to process subscription request' },
+      { error: 'Failed to subscribe' },
       { status: 500 }
     );
   }

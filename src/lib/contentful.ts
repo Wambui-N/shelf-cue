@@ -1,24 +1,5 @@
 import { createClient } from 'contentful';
-
-export interface BlogPost {
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  featuredImage: {
-    url: string;
-    title: string;
-  };
-  author: {
-    name: string;
-    avatar: {
-      url: string;
-    };
-  };
-  category: string;
-  readingTime: number;
-  publishDate: string;
-}
+import { BlogPost } from '@/data/blogPosts';
 
 const client = createClient({
   space: process.env.CONTENTFUL_SPACE_ID!,
@@ -40,12 +21,6 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       featuredImage: {
         url: item.fields.featuredImage.fields.file.url,
         title: item.fields.featuredImage.fields.title,
-      },
-      author: {
-        name: item.fields.author.fields.name,
-        avatar: {
-          url: item.fields.author.fields.avatar.fields.file.url,
-        },
       },
       category: item.fields.category,
       readingTime: item.fields.readingTime,
@@ -77,12 +52,6 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       featuredImage: {
         url: item.fields.featuredImage.fields.file.url,
         title: item.fields.featuredImage.fields.title,
-      },
-      author: {
-        name: item.fields.author.fields.name,
-        avatar: {
-          url: item.fields.author.fields.avatar.fields.file.url,
-        },
       },
       category: item.fields.category,
       readingTime: item.fields.readingTime,
