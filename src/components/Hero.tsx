@@ -57,7 +57,7 @@ const Hero = () => {
           Stop Wasting $10,000+ on CRM Tools That Don't Work
         </h1>
         {/* Subheading */}
-        <p className="text-navy/80 text-lg md:text-xl mb-8 font-light text-center max-w-3xl mx-auto">
+        <p className="text-navy/80 text-lg md:text-xl mb-8  text-center max-w-3xl mx-auto">
           We combine hands-on experience with deep AI analysis to reveal:
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12">

@@ -3,14 +3,8 @@ import Image from 'next/image';
 import { getBlogPostBySlug } from '@/lib/contentful';
 import { NewsletterForm } from './NewsletterForm';
 
-interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const slug = await params.slug;
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const slug = params.slug;
   const post = await getBlogPostBySlug(slug);
   
   if (!post) {
@@ -128,8 +122,8 @@ function renderRichText(content: any) {
   });
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const slug = await params.slug;
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+  const slug = params.slug;
   const post = await getBlogPostBySlug(slug);
 
   if (!post) {
