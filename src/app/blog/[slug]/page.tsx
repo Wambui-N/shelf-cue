@@ -3,9 +3,8 @@ import Image from 'next/image';
 import { getBlogPostBySlug } from '@/lib/contentful';
 import { NewsletterForm } from './NewsletterForm';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const slug = params.slug;
-  const post = await getBlogPostBySlug(slug);
+export async function generateMetadata(props: any): Promise<Metadata> {
+  const post = await getBlogPostBySlug(props.params.slug);
   
   if (!post) {
     return {
@@ -122,9 +121,8 @@ function renderRichText(content: any) {
   });
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
-  const post = await getBlogPostBySlug(slug);
+export default async function BlogPostPage(props: any) {
+  const post = await getBlogPostBySlug(props.params.slug);
 
   if (!post) {
     return (

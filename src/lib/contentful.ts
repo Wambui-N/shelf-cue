@@ -10,21 +10,21 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const response = await client.getEntries({
       content_type: 'blogPost',
-      order: '-fields.publishDate',
+      order: ['-fields.publishDate'],
     });
 
     return response.items.map((item: any) => ({
-      title: item.fields.title,
-      slug: item.fields.slug,
-      excerpt: item.fields.excerpt,
-      content: item.fields.content,
+      title: item.fields.title as string || '',
+      slug: item.fields.slug as string || '',
+      excerpt: item.fields.excerpt as string || '',
+      content: item.fields.content as string || '',
       featuredImage: {
-        url: item.fields.featuredImage.fields.file.url,
-        title: item.fields.featuredImage.fields.title,
+        url: (item.fields.featuredImage as any)?.fields?.file?.url as string || '',
+        title: (item.fields.featuredImage as any)?.fields?.title as string || '',
       },
-      category: item.fields.category,
-      readingTime: item.fields.readingTime,
-      publishDate: item.fields.publishDate,
+      category: item.fields.category as string || '',
+      readingTime: Number(item.fields.readingTime) || 0,
+      publishDate: item.fields.publishDate as string || '',
     }));
   } catch (error) {
     console.error('Error fetching blog posts:', error);
@@ -45,17 +45,17 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 
     const item = response.items[0];
     return {
-      title: item.fields.title,
-      slug: item.fields.slug,
-      excerpt: item.fields.excerpt,
-      content: item.fields.content,
+      title: item.fields.title as string || '',
+      slug: item.fields.slug as string || '',
+      excerpt: item.fields.excerpt as string || '',
+      content: item.fields.content as string || '',
       featuredImage: {
-        url: item.fields.featuredImage.fields.file.url,
-        title: item.fields.featuredImage.fields.title,
+        url: (item.fields.featuredImage as any)?.fields?.file?.url as string || '',
+        title: (item.fields.featuredImage as any)?.fields?.title as string || '',
       },
-      category: item.fields.category,
-      readingTime: item.fields.readingTime,
-      publishDate: item.fields.publishDate,
+      category: item.fields.category as string || '',
+      readingTime: Number(item.fields.readingTime) || 0,
+      publishDate: item.fields.publishDate as string || '',
     };
   } catch (error) {
     console.error('Error fetching blog post:', error);

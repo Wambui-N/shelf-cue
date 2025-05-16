@@ -75,10 +75,10 @@ const toolDetails = {
   // Add more tool details as needed
 };
 
-const ToolPage = ({ params }: Props) => {
+const ToolPage = (props: any) => {
   // Find the tool based on the slug
-  const tool = tools.find(t => t.link === `/tools/${params.slug}`);
-  const details = tool ? toolDetails[params.slug as keyof typeof toolDetails] : null;
+  const tool = tools.find(t => t.link === `/tools/${props.params.slug}`);
+  const details = tool ? toolDetails[props.params.slug as keyof typeof toolDetails] : null;
 
   if (!tool || !details) {
     return (
